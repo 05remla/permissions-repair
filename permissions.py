@@ -22,7 +22,7 @@ def Gather():
                 for Dir in Dirs:
                     CurrentDir = os.path.join(Root, Dir)
                     stats = os.lstat(CurrentDir)
-                    bits = oct(stats[0])[4:]
+                    bits = oct(stats[0])[-3:]
                     uid = stats[4]
                     gid = stats[5]
                     c.execute("INSERT INTO permissions VALUES (?,?,?,?)", 
@@ -33,7 +33,7 @@ def Gather():
                 for File in Files:
                     CurrentFile = os.path.join(Root, File)
                     stats = os.lstat(CurrentFile)
-                    bits = oct(stats[0])[4:]
+                    bits = oct(stats[0])[-3:]
                     uid = stats[4]
                     gid = stats[5]
                     c.execute("INSERT INTO permissions VALUES (?,?,?,?)", 
