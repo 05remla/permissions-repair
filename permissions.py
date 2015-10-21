@@ -2,16 +2,16 @@
 import os
 import sqlite3
 
-database = '/permissions.py'
+database = '/permissions.db'
+exclusionlist = ['media', 'dev', 'tmp', 'cdrom', 'rofs', 'mnt', 'proc', 'sys']
 
 def Gather():
-    global databae
+    global database
+    global exclusionlist
     conn = sqlite3.connect(database)
     c = conn.cursor()
 
     print('Building database...')
-    ExclusionList = ['media', 'dev', 'tmp', 'cdrom', 'rofs', 'mnt',
-                     'proc', 'sys']
 
     c.execute('''CREATE TABLE permissions (bits text, uid text, gid text, item text)''')
     conn.commit()
@@ -52,14 +52,16 @@ def Restore():
         try:
             split_string = line.split("'")
             if (os.path.exists(split_string[7])):
-                bits, uid = split_string[1], split_string[3]
-                gid, item = split_string[5], split_string[7]
-                os.system('chmod ' + bits + ' ' + item)
-                os.system('chown ' + uid + ' ' + item)
-                os.system('chgrp ' + gid + ' ' + item)
+                bits = split_string[1]
+                uid = split_string[3]
+                gid = split_string[5]
+                item = split_string[7]
+                print(bits, uid, gid, item)
+                os.chmod(item, bits)
+                os.chown(item, uid, gid)
                 print('processed ' + item)
         except:
-            pass        
+            pass         
     #conn.close()
 
             
