@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import os
+import os, sys
 import sqlite3
 
 database = '/permissions.db'
