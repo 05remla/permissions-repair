@@ -5,7 +5,7 @@ import sqlite3
 database = '/permissions.db'
 exclusionlist = ['media', 'dev', 'tmp', 'cdrom', 'rofs', 'mnt', 'proc', 'sys']
 
-def Gather():
+def gather():
     global database
     global exclusionlist
     conn = sqlite3.connect(database)
@@ -44,7 +44,7 @@ def Gather():
     print('Complete.')
       
 
-def Restore():
+def restore():
     global databae
     conn = sqlite3.connect(database)
 
@@ -66,4 +66,10 @@ def Restore():
 
             
 if __name__ == '__main__':
-    pass
+    args = sys.argv[1:]
+    if (len(args) > 0):
+        for i in args:
+            if (i == 'gather'):
+                gather()
+            if (i == 'restore'):
+                restore()
